@@ -1,0 +1,1167 @@
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.runningback {
+  background-color: #808080;
+  background-image:
+    radial-gradient(
+      white,
+      #808080
+    );
+}
+
+.incorrectback {
+  background-color: #ff4d4d;
+  background-image:
+    radial-gradient(
+      white,
+      #ff4d4d
+    );
+}
+
+.correctback {
+  background-color: #009900;
+  background-image:
+    radial-gradient(
+      white,
+      #009900
+    );
+}
+
+.menuback {
+  background-color: #99ccff;
+  background-image:
+    radial-gradient(
+      white,
+      #99ccff
+    );
+}
+
+.topheadertext {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 30px;
+	text-align: center;
+	color: #99ccff;
+	font-style: italic;
+	text-shadow: -1px 0 #4d4d4d, 0 1px #4d4d4d, 1px 0 #4d4d4d, 0 -1px #4d4d4d;
+}
+
+.topheadertext.left {
+	text-align: left;
+}
+
+.topheadertext.middle {
+	text-align: center;
+}
+
+.topheadertext.right {
+	text-align: right;
+}
+
+.bottomheadertext {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 24px;
+	text-align: center;
+	color: white;
+	text-shadow: -0.25px 0 white, 0 0.25px white, 0.25px 0 white, 0 -0.25px white;
+}
+
+
+.toptext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 70px;
+	margin-top: 15px;
+	color: black;
+
+}
+
+.bottomtext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 70px;
+}
+
+.submitinfotext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 60px;
+}
+
+.submitinfosmalltext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+}
+
+.hinttext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 30px;
+	color: black;
+}
+
+.sideheadertext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 40px;
+	font-weigt: bold;
+	color: black;
+}
+
+.timetext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 150px;
+	color: black;
+	opacity: 0.0;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.text150 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 150px;
+	color: black;
+	text-align: center;
+	font-weight: bold;
+	height:180px;
+}
+
+.text80 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 80px;
+	color: black;
+	text-align: center;
+}
+
+.text60 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 60px;
+	color: black;
+	text-align: center;
+}
+
+.text40 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 40px;
+	color: black;
+	text-align: center;
+}
+
+.text20 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+	color: black;
+	text-align: center;
+}
+
+.descriptiontext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+	color: #999999;
+	text-align: center;
+	font-style: italic;
+	width: 90%;
+	margin-left: 5%;
+}
+
+.categoryboxtext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 40px;
+	color: black;
+	text-align: center;
+	padding-top: 40px;
+}
+
+.fbsubmittedtext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+	color: black;
+	text-align: center;
+	font-weight: bold;
+}
+
+.fbsubmittedtext2 {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	color: black;
+	text-align: center;
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.continuetext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 24px;
+	color: black;
+	text-align: center;
+	margin-top: 100px;
+}
+
+.leaderboardtext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 36px;
+	font-weight: bold;
+	color: black;
+	padding-top: 8px;
+}
+
+.leaderboardsmalltext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: black;
+	text-align: center;
+}
+
+.smalllabeltext {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: black;
+	text-align: center;
+	font-style: italic;
+}
+
+[class*="col-"] {
+  /*background-color: #eee;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);*/
+}
+
+.center {
+	width: 100%;
+}
+
+.blank {
+	opacity:0.0;
+}
+
+.leftside {
+	height:600px;
+	text-align: center;
+}
+
+.centerside {
+	height:600px;
+}
+
+.rightside {
+	height:600px;
+}
+
+.topside {
+	min-height:100px;
+	margin-top:38px;
+	text-align: center;
+	opacity: 0.0;
+}
+
+.bottomside {
+	height:100px;
+	margin-bottom:55px;
+}
+
+.gameovercontatiner {
+	position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    text-align: center;
+
+    margin: auto;
+
+	width: 100%;
+}
+
+.image {
+	position: absolute;
+    top:0;
+    bottom: 0;
+    left: 32.5px;
+    right: 0;
+    
+    opacity: 0.0;
+
+    margin: auto;
+
+	max-width: 90%;
+	max-height: 90%;
+	border: 5px solid black;
+	border-radius: 5px;
+}
+
+.easycover {
+	position: absolute;
+    top: 50%;
+  	transform: translateY(-50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    opacity: 0.0;
+
+    background: black;
+}
+
+.hardcover1 {
+	position: absolute;
+    top: 50%;
+  	transform: translateY(-50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    opacity: 0.0;
+
+    background: black;
+}
+
+.hardcover2 {
+	position: absolute;
+    top: 50%;
+  	transform: translateY(-50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    opacity: 0.0;
+
+    background: black;
+}
+
+.cover {
+	position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: auto;
+    color: black;
+    width: 45%;
+}
+
+.textfield {
+	width: 90%;
+	height: 90px;
+	margin-left: 5%;
+	text-align: center;
+	outline-width: 0;
+	border: none;
+	background-color: transparent;
+	color: transparent;
+	text-shadow: 0 0 0 black;
+}
+
+.submitcheckfield {
+	width: 90%;
+	height: 90px;
+	margin-left: 5%;
+	text-align: center;
+	padding: 60px 10px;
+	box-sizing: border-box;
+	border: 2px solid #999999;
+    border-radius: 4px;
+    outline: none;
+}
+
+.submitinfofield {
+	width: 90%;
+	height: 80px;
+	margin-left: 5%;
+	text-align: center;
+}
+
+.submitinfofieldsmall {
+	width: 90%;
+	height: 40px;
+	margin-left: 5%;
+	text-align: center;
+}
+
+.sidecontainer {
+	width: 80%;
+	height: 80%;
+	
+	position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: auto;
+    
+    opacity: 0.0;
+}
+
+.sideheader {
+	height: 25%;
+}
+
+.hint1 {
+	min-height: 120px;
+	opacity: 0.0;
+	
+	width:100%;
+	
+	position: absolute;
+    top:110px;;
+    bottom: 0;
+    left: 5px;
+    right: 0;
+
+    margin: auto;
+}
+
+.hint2 {
+	min-height: 120px;
+	opacity: 0.0;
+	
+	width:100%;
+	
+	position: absolute;
+    top:250px;
+    bottom: 0;
+    left: 5px;
+    right: 0;
+
+    margin: auto;
+}
+
+.topnavbar {
+	padding-top: 5px;
+}
+
+.botnavbar {
+	padding-top: 7px;
+	opacity: 0.0;
+}
+
+.blank {
+	opacity: 0.0;
+}
+
+.timer {
+	text-align: center;
+}
+
+.menuscreen {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	padding-top:60px;
+	z-index: 1;
+}
+
+.gameoverscreen {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	padding-top:70px;
+	z-index: -1;
+}
+
+.submitscreen1 {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	padding-top:100px;
+	z-index: -1;
+}
+
+.submitscreen2 {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	padding-top:100px;
+	z-index: -1;
+}
+
+.submitscreen3 {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	padding-top:100px;
+	z-index: -1;
+}
+
+.submitscreen4 {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	padding-top:100px;
+	z-index: -1;
+}
+
+.gamescreen {
+	z-index: -1;
+}
+
+.button.giveupbutton {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	visibility: hidden;
+	background-color:#d9d9d9;
+	color: #4d4d4d;
+	border: 2px solid;
+	margin-top: 3px;
+	border-radius: 4px;
+	-webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+.button.giveupbutton:hover {
+	background-color:#ff9999;
+	color: black;
+}
+
+.button.menubutton {
+	background-color:#cccccc;
+	color: #4d4d4d;
+	width: 200px;
+	height: 100px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 30px;
+	font-family: 'Open Sans', sans-serif;
+	border-radius: 8px;
+	border: 4px solid;
+	-webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+.button.menubutton:hover {
+	background-color:#f2f2f2;
+	width: 210px;
+	height: 110px;
+}
+
+.button.smallmenubutton {
+	background-color:#cccccc;
+	color: #4d4d4d;
+	width: 160px;
+	height: 80px;
+	margin: auto;
+	font-size: 20px;
+	font-family: 'Open Sans', sans-serif;
+	border-radius: 8px;
+	border: 4px solid;
+	-webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+.button.smallmenubutton:hover {
+	background-color:#f2f2f2;
+	width: 170px;
+	height: 90px;
+}
+
+.button.gameoverbutton {
+	background-color:#cccccc;
+	color: #4d4d4d;
+	width: 200px;
+	height: 100px;
+	margin-left: 100px;
+	margin-right: 100px;
+	font-size: 30px;
+	font-family: 'Open Sans', sans-serif;
+	border-radius: 8px;
+	border: 4px solid;
+	-webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+.button.gameoverbutton:hover {
+	background-color:#f2f2f2;
+	width: 210px;
+	height: 110px;
+}
+
+.buttoncontainer {
+	margin: auto;
+	width: 50%;
+	text-align: center;
+}
+
+.buttoncontainer2 {
+	margin: auto;
+	width: 70%;
+	text-align: center;
+}
+
+.startcontainer1 {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+	text-align: center;
+}
+
+.startcontainer2 {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 140px;
+	width: 80%;
+	text-align: center;
+}
+
+.disabledelement {
+	opacity: 0.0;
+	pointer-events: none;
+}
+
+.menupanel {
+	height: 500px;
+}
+
+.menusubheading {
+	padding-bottom: 10px;
+}
+
+.endarrow {
+	position: absolute;
+	
+	width: 380px;
+	height: 300px;
+	margin-left: 90px;
+	margin-top: 390px;
+}
+.arrowtextbox {
+	position: absolute;
+	
+	height:120px;
+	width:220px;
+	
+	font-family: 'Open Sans', sans-serif;
+	font-size: 25px;
+	color: black;
+	
+	text-align: center;
+	
+	margin-left: 70px;
+	margin-top: 310px;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #4d4d4d;
+    margin: 1em 0;
+    padding: 0; 
+}
+
+.difficultybox {
+	width: 300px;
+	height: 300px;
+	margin: auto;
+	padding-top: 40px;
+	border: 2px solid;
+	border-radius: 4px;
+}
+
+.categorybox {
+	width: 300px;
+	height: 300px;
+	margin: auto;
+	border: 2px solid;
+	border-radius: 4px;
+}
+
+.startbox {
+	width: 250px;
+	height: 300px;
+	margin-top: 35%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 30px;
+}
+
+input[type="radio"]{
+    vertical-align: middle;
+}
+
+.scrollable-menu {
+	height: auto;
+	max-height: 200px;
+	overflow-x: hidden;
+}
+
+.fbimage {
+	width: 40px;
+	height: 40px;
+	opacity: 0.0;
+	border: 1px solid #99ccff;
+	opacity: 0.0;
+}
+
+.fbimage2 {
+	width: 60px;
+	height: 60px;
+	margin-top: 10px;
+	border: 2px solid black;
+}
+
+.fbimage3 {
+	width: 60px;
+	height: 60px;
+	border: 2px solid black;
+	
+	margin-top: 6px;
+}
+
+.alreadysubmittedimage {
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;
+
+	max-width: 300px;
+	max-height: 300px;
+	border: 4px solid black;
+	border-radius: 4px;
+}
+
+.mar5 {
+	margin-top: 5px;
+}
+
+.mar15 {
+	margin-top: 15px;
+}
+
+.mar20 {
+	margin-top: 20px;
+}
+
+.mar24 {
+	margin-top: 24px;
+}
+
+.mar30 {
+	margin-top: 30px;
+}
+
+.mar37 {
+	margin-top: 37px;
+}
+
+.mar60 {
+	margin-top: 60px;
+}
+
+.mar70 {
+	margin-top: 70px;
+}
+
+.mar375 {
+	margin-top: 375px;
+}
+
+.pad40 {
+	padding-top: 40px;
+}
+
+.pad75 {
+	padding-top: 75px;
+}
+
+.pad125 {
+	padding-top: 125px;
+}
+
+.submitbox {
+	border: 2px solid black;
+	border-radius: 4px;
+	height: 250px;
+	text-align: center;
+}
+
+.choosefile {
+	margin-left: 40%;
+	margin-top: 30px;
+}
+
+.fbsubmittedbox {
+	position: absolute;
+    top: 400px;
+    bottom: 0;
+    left: 5px;
+    right: 0;
+    
+    margin: auto;
+}
+
+.leaderboard {
+	height: 540px;
+	width: 1000px;
+	border: 4px solid black;
+	border-radius: 4px;
+    
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    
+    opacity: 0.0;
+}
+
+.leaderboardrow {
+	height: 15%;
+	width: 100%;
+	margin: auto;
+	
+	padding-top: 2px;
+	background-color: #b3b3cc;
+	border-top: 1px solid black;
+}
+
+.leaderboardrowsmall {
+	height: 5%;
+	width: 100%;
+	margin: auto;
+	
+	background-color: #d1d1e0;
+	border-top: 1px solid black;
+}
+
+.leaderboardpicture {
+	height: 100%;
+	text-align: center;
+}
+
+.leaderboardname {
+	height: 100%;
+	text-align: center;
+}
+
+.leaderboardscore {
+	height: 100%;
+	text-align: center;
+}
+
+.spacer1 {
+	height: 40px;
+}
+
+.picturescrollbox {
+	height: 150px;
+}
+
+.picturescrollsubbox {
+	height: 80%;
+	width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 25px;
+}
+
+.scrollpic {
+	position: absolute;
+	max-width: 100px;
+	max-height: 100px;
+	margin-left: 140px;
+	border: 2px solid black;
+	border-radius: 2px;
+	top: 50%;
+  	transform: translateY(-50%);
+  	opacity: 0.0;
+}
+
+.scrollpic2 {
+	position: absolute;
+	max-width: 100px;
+	max-height: 100px;
+	margin-left: 380px;
+	border: 2px solid black;
+	border-radius: 2px;
+	top: 50%;
+  	transform: translateY(-50%);
+  	opacity: 0.0;
+}
+
+.scrollpic3 {
+	position: absolute;
+	max-width: 100px;
+	max-height: 100px;
+	margin-left: 620px;
+	border: 2px solid black;
+	border-radius: 2px;
+	top: 50%;
+  	transform: translateY(-50%);
+  	opacity: 0.0;
+}
+
+.scrollpic4 {
+	position: absolute;
+	max-width: 100px;
+	max-height: 100px;
+	margin-left: 860px;
+	border: 2px solid black;
+	border-radius: 2px;
+	top: 50%;
+  	transform: translateY(-50%);
+  	opacity: 0.0;
+}
+
+.scrollpic5 {
+	position: absolute;
+	max-width: 100px;
+	max-height: 100px;
+	margin-left: 1100px;
+	border: 2px solid black;
+	border-radius: 2px;
+	top: 50%;
+  	transform: translateY(-50%);
+  	opacity: 0.0;
+}
+
+@keyframes screenfadeoutanim {
+	0% {opacity: 1.0;}
+	50% {opacity: 0.0;}
+	100% {opacity: 0.0;}
+}
+
+.screenfadeoutelement {
+	animation-name: screenfadeoutanim;
+	animation-duration: 1.5s;
+}
+
+@keyframes screenfadeout2anim {
+	from {opacity: 1.0;}
+	to {opacity: 0.0;}
+}
+
+.screenfadeoutelement2 {
+	animation-name: screenfadeout2anim;
+	animation-duration: 0.75s;
+}
+
+@keyframes screenfadeinanim {
+	from {opacity: 0.0;}
+	t0 {opacity: 1.0;}
+}
+
+.screenfadeinelement {
+	animation-name: screenfadeinanim;
+	animation-duration: 0.75s;
+}
+
+@keyframes backgroundbluetogreyanim {
+	from {background-color: #99ccff; background-image: radial-gradient(white,#99ccff);}
+	to {background-color: #808080; background-image: radial-gradient(white,#808080);}
+}
+
+.backgroundbluetogrey {
+	animation-name: backgroundbluetogreyanim;
+	animation-duration: 1.5s;
+}
+
+@keyframes fadeinfromleftanim {
+	from {opacity: 0.0; left: 100px;}
+	to {opacity: 1.0; left: 0;}
+}
+
+.fadeinfromleft1 {
+	animation-name: fadeinfromleftanim;
+	animation-duration: 0.5s;
+}
+
+.fadeinfromleft2 {
+	animation-name: fadeinfromleftanim;
+	animation-duration: 0.5s;
+	animation-delay: 0.25s;
+}
+
+@keyframes fadeouttorightanim {
+	from {opacity: 1.0; left: 0;}
+	to {opacity: 0.0; left: 100px;}
+}
+
+.fadeouttoright1 {
+	animation-name: fadeouttorightanim;
+	animation-duration: 0.5s;
+
+}
+
+.fadeouttoright2 {
+	animation-name: fadeouttorightanim;
+	animation-duration: 0.5s;
+
+}
+
+@keyframes fadeinfrombottomanim1 {
+	from {opacity: 0.0; top: 235px;}
+	to {opacity: 1.0; top: 110px;}
+}
+
+.fadeinfrombottom1 {
+	animation-name: fadeinfrombottomanim1;
+	animation-duration: 0.5s;
+}
+
+@keyframes fadeinfrombottomanim2 {
+	from {opacity: 0.0; top: 325px;}
+	to {opacity: 1.0; top: 250px;}
+}
+
+.fadeinfrombottom2 {
+	animation-name: fadeinfrombottomanim2;
+	animation-duration: 0.5s;
+}
+
+@keyframes fadeinfrombottomanim3 {
+	from {opacity: 0.0; top: 475px;}
+	to {opacity: 1.0; top: 400px;}
+}
+
+.fadeinfrombottom3 {
+	animation-name: fadeinfrombottomanim3;
+	animation-duration: 0.4s;
+	animation-delay: 1.0s;
+}
+
+@keyframes easyframefallleftanim {
+	50% {opacity: 0.7;}
+	100% {opacity: 0.0; transform: translateY(-100px) rotate(-4deg);}
+}
+
+.easyframefallleft {
+	animation-name: easyframefallleftanim;
+	animation-duration: 1.0s;
+}
+
+@keyframes easyframefallrightanim {
+	50% {opacity: 0.7;}
+	100% {opacity: 0.0; transform: translateY(-100px) rotate(4deg);}
+}
+
+.easyframefallright {
+	animation-name: easyframefallrightanim;
+	animation-duration: 1.0s;
+}
+
+@keyframes fadeoutanim {
+	from {opacity: 1.0;}
+	to {opacity: 0.0;}
+}
+
+.fadeout {
+	animation-name: fadeoutanim;
+	animation-duration: 0.5s;
+}
+
+@keyframes leaderboardfadeanim {
+	from {opacity: 0.0; margin-top: 80px;}
+	to {opacity: 1.0; margin-top: 20px;}
+}
+
+.leaderboardfade {
+	animation-name: leaderboardfadeanim;
+	animation-duration: 0.5s;
+}
+
+@keyframes leaderboardheaderfadeanim {
+	from {opacity: 0.0; margin-top: 60px;}
+	to {opacity: 1.0; margin-top: 0px;}
+}
+
+.leaderboardheaderfade {
+	animation-name: leaderboardheaderfadeanim;
+	animation-duration: 0.5s;
+}
+
+@keyframes gameoverbuttonanim {
+	from {opacity: 0.0; transform: scale(1.1);}
+	to {opacity: 1.0; transform: scale(1.0);}
+}
+
+.gameoverbuttonani {
+	animation-name: gameoverbuttonanim;
+	animation-duration: 0.5s;
+}
+
+@keyframes rotatebuttonanim {
+	from {transform: rotate(0deg) scale(1.0);}
+	to {transform: rotate(480deg) scale(0.5);}
+}
+
+.rotatebutton {
+	animation-name: rotatebuttonanim;
+	animation-duration: 1.0s;
+}
+
+@keyframes arrowfadeinanim {
+	from {opacity: 0.0; transform: scale(1.1);}
+	to {opacity: 1.0; transform: scale(1.0);}
+}
+
+.arrowfadein {
+	animation-name: arrowfadeinanim;
+	animation-duration: 0.5s;
+}
+
+@keyframes menuscroll1anim {
+	from {opacity: 1.0; margin-left: 140px;}
+	to {opacity: 0.0; margin-left: 0px;}
+}
+
+.menuscroll1 {
+	animation-name: menuscroll1anim;
+	animation-duration: 3.0s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes menuscroll2anim {
+	from {margin-left: 380px;}
+	to {margin-left: 140px;}
+}
+
+.menuscroll2 {
+	animation-name: menuscroll2anim;
+	animation-duration: 3.0s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes menuscroll3anim {
+	from {margin-left: 620px;}
+	to {margin-left: 380px;}
+}
+
+.menuscroll3 {
+	animation-name: menuscroll3anim;
+	animation-duration: 3.0s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes menuscroll4anim {
+	from {margin-left: 860px;}
+	to {margin-left: 620px;}
+}
+
+.menuscroll4 {
+	animation-name: menuscroll4anim;
+	animation-duration: 3.0s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes menuscroll5anim {
+	from {opacity: 0.0; margin-left: 1100px;}
+	to {opacity: 1.0; margin-left: 860px;}
+}
+
+.menuscroll5 {
+	animation-name: menuscroll5anim;
+	animation-duration: 3.0s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}

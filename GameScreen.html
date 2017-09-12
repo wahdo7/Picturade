@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Main GameScreen</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="GameScreen.css" rel="stylesheet" type="text/css">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script>
+    var y;
+    var gamestate = 5;
+    var timeleft;
+    var round;
+    var score;
+    var picwidth;
+    var picheight;
+    var globalused;
+    var difficulty;
+    var easyvariation;
+    var hardvariation;
+    var category = "All";
+    var totaloffset;
+    var fbloggedin;
+    var submitpicture = 0;
+    var submitcategoryunchanged = 1;
+    var loggeduserid;
+    var loggedusername;
+    var submittedround;
+    var allowcontinue;
+    var nopass = 0;
+    function getnew() {
+    	  var xhttp = new XMLHttpRequest();
+    	  xhttp.onreadystatechange = function() {
+    	    if (this.readyState == 4 && this.status == 200) {
+    	    	var x = this.responseText;
+    	      	y = x.split("_");
+            	document.getElementById("toptext").innerHTML = y[1];
+            	document.getElementById("picture").src = y[2];
+            	document.getElementById("hint1").innerHTML = y[3];
+            	document.getElementById("hint2").innerHTML = y[4];
+            	document.getElementById("textfield").disabled = false;
+            	document.getElementById("textfield").focus();
+            	if (y[5] == 1) {
+            		globalused += 1;
+            	}
+            	if (y[6] > 1) {
+            		userid = y[6];
+            		
+            		document.getElementById("fbpicture2").src = "http://graph.facebook.com/" + userid + "/picture?type=square";
+            		      
+            		document.getElementById("fbsubmitname").innerHTML = y[7];
+            		
+            		document.getElementById("fbsubmittedbox").style.opacity = 0.0;
+            		submittedround = 1;
+            	} else {
+            		submittedround = 0;
+            		document.getElementById("fbsubmittedbox").style.opacity = 0.0;
+            	}
+    	    };
+    	  };
+    	  xhttp.open("GET", "choosepicture.php?globalused=" + globalused + "&category=" + category, true);
+    	  xhttp.send();
+    	};
+    	
+   	function checksubmission() {
+   		if ($.trim( $('#submitcheckfield').val() ) != '') {
+   			var xhttp = new XMLHttpRequest();
+       	  	xhttp.onreadystatechange = function() {
+       	    if (this.readyState == 4 && this.status == 200) {
+       	    	var x = this.responseText;
+       	    	y = x.split("_");
+       	    	if (y[2] == 0) {
+       	    		submitscreen2();
+       	    		document.getElementById("alreadysubmittedpicture").src = y[1];
+       	    		document.getElementById("alreadysubmittedtext").innerHTML = y[0];
+       	    	} else {
+       	    		submitscreen3();
+       	    	}
+       	    };
+       	  };
+       	  xhttp.open("GET", "checksubmission.php?submission=" + document.getElementById("submitcheckfield").value, true);
+       	  xhttp.send();
+   		}
+     	};
+     	
+   	function leaderboard(cat) {
+   		if (fbloggedin == 1) {
+   			var xhttp = new XMLHttpRequest();
+      	  	xhttp.onreadystatechange = function() {
+      	    if (this.readyState == 4 && this.status == 200) {
+      	    	document.getElementById("leaderboardrow1").style.backgroundColor = "#b3b3cc";
+  	    		document.getElementById("leaderboardrow2").style.backgroundColor = "#b3b3cc";
+  	    		document.getElementById("leaderboardrow3").style.backgroundColor = "#b3b3cc";
+  	    		document.getElementById("leaderboardrow4").style.backgroundColor = "#b3b3cc";
+  	    		document.getElementById("leaderboardrow5").style.backgroundColor = "#b3b3cc";
+  	    		document.getElementById("leaderboardrow6").style.backgroundColor = "#b3b3cc";
+      	    	
+      	    	var x = this.responseText;
+      	    	y = x.split("_");
+      	    	
+      	    	document.getElementById("leaderboardname1").innerHTML = y[0];
+      	    	document.getElementById("leaderboardpicture1").src = "http://graph.facebook.com/" + y[1] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore1").innerHTML = y[2];
+      	    	document.getElementById("leaderboardname2").innerHTML = y[3];
+      	    	document.getElementById("leaderboardpicture2").src = "http://graph.facebook.com/" + y[4] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore2").innerHTML = y[5];
+      	    	document.getElementById("leaderboardname3").innerHTML = y[6];
+      	    	document.getElementById("leaderboardpicture3").src = "http://graph.facebook.com/" + y[7] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore3").innerHTML = y[8];
+      	    	document.getElementById("leaderboardname4").innerHTML = y[9];
+      	    	document.getElementById("leaderboardpicture4").src = "http://graph.facebook.com/" + y[10] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore4").innerHTML = y[11];
+      	    	document.getElementById("leaderboardname5").innerHTML = y[12];
+      	    	document.getElementById("leaderboardpicture5").src = "http://graph.facebook.com/" + y[13] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore5").innerHTML = y[14];
+      	    	document.getElementById("leaderboardrank6").innerHTML = y[15];
+      	    	document.getElementById("leaderboardname6").innerHTML = loggedusername;
+      	    	document.getElementById("leaderboardpicture6").src = "http://graph.facebook.com/" + loggeduserid + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore6").innerHTML = score;
+
+      	    	document.getElementById("leaderboardheader").innerHTML = "High Scores: " + category;
+      	    	
+      	    	document.getElementById("arrowpic").style.opacity= 0.0;
+      	    	document.getElementById("arrowtext").style.opacity= 0.0;
+      	    	
+      	    	if(y[15] == 1) {
+      	    		document.getElementById("leaderboardrow1").style.backgroundColor = "#ffff99";
+      	    		document.getElementById("leaderboardrow6").style.backgroundColor = "#ffff99";
+      	    	} else if (y[15] == 2) {
+      	    		document.getElementById("leaderboardrow2").style.backgroundColor = "#ffff99";
+      	    		document.getElementById("leaderboardrow6").style.backgroundColor = "#ffff99";
+      	    	} else if (y[15] == 3) {
+      	    		document.getElementById("leaderboardrow3").style.backgroundColor = "#ffff99";
+      	    		document.getElementById("leaderboardrow6").style.backgroundColor = "#ffff99";
+      	    	} else if (y[15] == 4) {
+      	    		document.getElementById("leaderboardrow4").style.backgroundColor = "#ffff99";
+      	    		document.getElementById("leaderboardrow6").style.backgroundColor = "#ffff99";
+      	    	} else if (y[15] == 5) {
+      	    		document.getElementById("leaderboardrow5").style.backgroundColor = "#ffff99";
+      	    		document.getElementById("leaderboardrow6").style.backgroundColor = "#ffff99";
+      	    	}
+      	    	};
+      	  	};
+      	  	xhttp.open("GET", "leaderboardfunction.php?playername=" + loggedusername + "&playerid=" + loggeduserid + "&score=" + score + "&category=" + cat + "&facebook=True", true);
+      	  	xhttp.send();
+   		} else if (fbloggedin == 0) {
+   			document.getElementById("leaderboardrow1").style.backgroundColor = "#b3b3cc";
+    		document.getElementById("leaderboardrow2").style.backgroundColor = "#b3b3cc";
+    		document.getElementById("leaderboardrow3").style.backgroundColor = "#b3b3cc";
+    		document.getElementById("leaderboardrow4").style.backgroundColor = "#b3b3cc";
+    		document.getElementById("leaderboardrow5").style.backgroundColor = "#b3b3cc";
+    		document.getElementById("leaderboardrow6").style.backgroundColor = "#b3b3cc";
+    		
+   			var xhttp = new XMLHttpRequest();
+      	  	xhttp.onreadystatechange = function() {
+      	    if (this.readyState == 4 && this.status == 200) {
+      	    	var x = this.responseText;
+      	    	y = x.split("_");
+      	    	
+      	    	document.getElementById("leaderboardname1").innerHTML = y[0];
+      	    	document.getElementById("leaderboardpicture1").src = "http://graph.facebook.com/" + y[1] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore1").innerHTML = y[2];
+      	    	document.getElementById("leaderboardname2").innerHTML = y[3];
+      	    	document.getElementById("leaderboardpicture2").src = "http://graph.facebook.com/" + y[4] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore2").innerHTML = y[5];
+      	    	document.getElementById("leaderboardname3").innerHTML = y[6];
+      	    	document.getElementById("leaderboardpicture3").src = "http://graph.facebook.com/" + y[7] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore3").innerHTML = y[8];
+      	    	document.getElementById("leaderboardname4").innerHTML = y[9];
+      	    	document.getElementById("leaderboardpicture4").src = "http://graph.facebook.com/" + y[10] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore4").innerHTML = y[11];
+      	    	document.getElementById("leaderboardname5").innerHTML = y[12];
+      	    	document.getElementById("leaderboardpicture5").src = "http://graph.facebook.com/" + y[13] + "/picture?type=square";
+      	    	document.getElementById("leaderboardscore5").innerHTML = y[14];
+      	    	document.getElementById("leaderboardrank6").innerHTML = "";
+      	    	document.getElementById("leaderboardname6").innerHTML = "You";
+      	    	document.getElementById("leaderboardpicture6").src = "Pictures/unknown.png";
+      	    	document.getElementById("leaderboardscore6").innerHTML = score;
+      	    	
+      	    	document.getElementById("leaderboardheader").innerHTML = "High Scores: " + category;
+      	    	
+      	    	document.getElementById("arrowpic").style.opacity= 0.0;
+      	    	document.getElementById("arrowtext").style.opacity= 0.0;
+      	    	};
+      	  	};
+      	  	xhttp.open("GET", "leaderboardfunction.php?playername=none" + "&playerid=none" + "&score=" + score + "&category=" + cat + "&facebook=False", true);
+      	  	xhttp.send();
+   		}
+    	};
+
+   	function resetused() {
+     	  var xhttp = new XMLHttpRequest();
+     	  xhttp.open("GET", "resetused.php", true);
+     	  xhttp.send();
+     	};
+    
+    function setused() {
+   		var xhttp = new XMLHttpRequest();
+ 	  	xhttp.open("GET", "setused.php?id=" + y[0], true);
+ 	  	xhttp.send();
+    };
+
+      function coversize() {
+    	  if (difficulty == "easy") {
+    		  document.getElementById("easycover").style.width = (picwidth / 2) + "px";
+    	      document.getElementById("easycover").style.height = picheight + "px";
+    	      if (easyvariation == 1) {
+    	    	  document.getElementById("easycover").style.left = totaloffset + "px";
+    	      } else {
+    	    	  document.getElementById("easycover").style.left = ((picwidth/2) + totaloffset + 10) + "px";
+    	      }
+    	  } else if (difficulty == "hard") {
+    		  if (hardvariation == 1) {
+    				document.getElementById("hardcover1").style.width = (5 * (picwidth / 16)) + "px";
+    	     	  	document.getElementById("hardcover1").style.height = picheight + "px";
+    	     	   	document.getElementById("hardcover1").style.left = totaloffset + "px";
+    	     	   	  
+    	     	   	document.getElementById("hardcover2").style.width = (9 * (picwidth / 16)) + "px";
+    	  	        document.getElementById("hardcover2").style.height = picheight + "px";
+    	  	   	    document.getElementById("hardcover2").style.left = (7 *(picwidth/16) + totaloffset + 10) + "px";
+    	  	   	    
+    		  } else if (hardvariation == 2) {
+    			  	document.getElementById("hardcover1").style.width = (7 * (picwidth / 16)) + "px";
+    		     	document.getElementById("hardcover1").style.height = picheight + "px";
+    		     	document.getElementById("hardcover1").style.left = totaloffset + "px";
+    		     	   	  
+    		     	document.getElementById("hardcover2").style.width = (7 * (picwidth / 16)) + "px";
+    		  	    document.getElementById("hardcover2").style.height = picheight + "px";
+    		  	   	document.getElementById("hardcover2").style.left = (9 *(picwidth/16) + totaloffset + 10) + "px";
+    		  	   	
+    		  } else if (hardvariation == 3) {
+    			  	document.getElementById("hardcover1").style.width = (9 * (picwidth / 16)) + "px";
+           	      	document.getElementById("hardcover1").style.height = picheight + "px";
+           	   	  	document.getElementById("hardcover1").style.left = totaloffset + "px";
+           	   	  
+           	   	  	document.getElementById("hardcover2").style.width = (5 * (picwidth / 16)) + "px";
+        	      	document.getElementById("hardcover2").style.height = picheight + "px";
+        	   	  	document.getElementById("hardcover2").style.left = (11 *(picwidth/16) + totaloffset + 10) + "px";
+    		  }
+    	  }
+      };
+    
+    	function init() {
+    		nopass = 1;
+    		globalused = 0;
+    		resetused();
+    		getnew();
+    		gamestate = 1;
+    		timeleft = 15;
+    		round = 1;
+    		score = 0;
+    		allowcontinue = 0;
+    		document.getElementById("topside").style.opacity = "0.0";
+    		document.getElementById("textfield").value = "";
+    		document.getElementById("round").innerHTML = "Round: 1";
+    		document.getElementById("score").innerHTML = "Score: 0";
+    		document.getElementById("timer").innerHTML = "15";
+    		document.getElementById("hint1").style.opacity = 0.0;
+          	document.getElementById("hint2").style.opacity = 0.0;
+          	document.getElementById("picture").style.opacity = 0.0;
+          	document.getElementById("sidecontainerl").style.opacity = 0.0;
+          	document.getElementById("sidecontainerr").style.opacity = 0.0;
+          	document.getElementById("timer").style.opacity = 0.0;
+          	document.getElementById("gameoverbutton1").style.opacity = 0.0;
+        	document.getElementById("gameoverbutton2").style.opacity = 0.0;
+    		if (difficulty == "hard") {
+    			hardrandom();
+    		} else if (difficulty == "easy") {
+    			easyrandom();
+    		}
+    		
+    		$('#gamescreen').removeClass("disabledelement");
+	       	$('#sidecontainerl').addClass("fadeinfromleft1");
+	       	$('#sidecontainerr').addClass("fadeinfromleft2");
+	       	
+	       	$('#sidecontainerl').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+	       			$('#sidecontainerl').removeClass("fadeinfromleft1");
+	       			document.getElementById("sidecontainerl").style.opacity = 1.0;
+    			    });
+	       	
+	       	$('#sidecontainerr').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+	       			$('#sidecontainerr').removeClass("fadeinfromleft2");
+	       			document.getElementById("sidecontainerr").style.opacity = 1.0;
+    			    });
+	       	
+    	};
+    
+    </script>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'  type='text/css'>
+
+  </head>
+
+  <body class="menuback" onload="startmenuanimations();">
+  
+  <script>
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      fbloggedin = 1;
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      fbloggedin = 0;
+      document.getElementById("fbpicture").style.opacity = 0.0;
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      fbloggedin = 0;
+      document.getElementById("fbpicture").style.opacity = 0.0;
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1590177201277637',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.5' // use graph api version 2.5
+  });
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    FB.api('/me', function(response) {
+      /*document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';*/
+      document.getElementById("fbpicture").src = "http://graph.facebook.com/" + response.id + "/picture?type=square";
+      document.getElementById("fbpicture").style.opacity = 1.0;
+      loggeduserid = response.id;
+      loggedusername = response.name;
+    });
+  }
+</script>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    	<div class="blank col-md-2"></div>
+    	<div class="col-md-3 topheadertext topnavbar left" id ="difficultytext"></div>
+      	<div class="col-md-2 topheadertext topnavbar middle"></div>
+      	<div class="col-md-3 topheadertext topnavbar right" id="categorytext"></div>
+      	<div class=" blank col-md-1"> </div>
+      	<div class="col-md-1 topnavbar">
+      		<img src="" class="fbimage" id="fbpicture">
+      	</div>
+    </nav>
+    
+    <div class="menuscreen" id="menuscreen">
+    	<div class="col-md-12">
+	      <div class="text150">Picturade</div>
+	      <div class="col-md-12 picturescrollbox">
+	      	<div class="picturescrollsubbox">
+	      		<img src="Pictures/blank.png" class="scrollpic" id="scrollpic1">
+	      		<img src="Pictures/blank.png" class="scrollpic2" id="scrollpic2">
+	      		<img src="Pictures/blank.png" class="scrollpic3" id="scrollpic3">
+	      		<img src="Pictures/blank.png" class="scrollpic4" id="scrollpic4">
+	      		<img src="Pictures/blank.png" class="scrollpic5" id="scrollpic5">
+	      	</div>
+	      </div>
+	      <div class="col-md-1 menupanel"></div>
+	      <div class="col-md-4 menupanel text80">
+	      	<p class="menusubheading">Difficulty</p>
+	      	<div class="difficultybox text40">
+	      		<input type="radio" name="difficulty" value="easy" id="easydif" checked/>
+	      		<label for="easydif">Easy</label>
+	      		<div class="smalllabeltext">1x Points</div>
+	      		<div class="spacer1"></div>
+	      		<input type="radio" name="difficulty" value="hard" id="harddif" />
+	      		<label for="harddif">Hard</label>
+	      		<div class="smalllabeltext">2x Points</div>
+	      	</div>
+	      </div>
+	      <div class="col-md-2 menupanel text80">
+	      	<div class="startbox">
+	      		<div class="col-md-6 startcontainer1">
+	      			<button type="button" class="button menubutton" onclick="startgame(); rotatebuttons(this.id);" id="startbutton">Start</button>
+	      		</div>
+	      		<div class="col-md-6 startcontainer2">
+	      			<button type="button" class="button smallmenubutton" onclick="submitscreen1();">Submit a Picture</button>
+	      		</div>
+	      	</div>
+	      </div>
+	      <div class="col-md-4 menupanel text80">
+	      	<p class="menusubheading">Category</p>
+	      	<div class="categorybox">
+	      		<p class="text40 mar60" id="categoryind">All</p>
+	      		<div class="btn-group">
+	                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Choose a category<span class="caret"></span></button>
+	                <ul class="dropdown-menu scrollable-menu" role="menu">
+	                    <li><a href="#" onclick="choosecategory('All');">All</a></li>
+	                    <li><a href="#" onclick="choosecategory('People');">People</a></li>
+	                    <li><a href="#" onclick="choosecategory('Food');">Food</a></li>
+	                    <li><a href="#" onclick="choosecategory('Characters');">Characters</a></li>
+	                </ul>
+            	</div>
+	      	</div>
+	      </div>
+	      <div class="col-md-1 menupanel"></div>
+	    </div>
+    	
+    </div>
+    
+    <div class="submitscreen1 disabledelement" id="submitscreen1">
+    	<div class="col-md-12">
+	      <p class="text80">Enter the name of the picture:</p>
+	      <br> <br>
+	      <input type="text" id="submitcheckfield" class="submitcheckfield bottomtext" autocomplete="off" spellcheck="false" maxlength=26>
+	      <div class="pad125 buttoncontainer">
+	      	<div class="col-md-6 buttoncontainer">
+	      		<button type="button" class="button gameoverbutton" onclick="checksubmission();">Submit</button>
+	      	</div>
+	      	<div class="col-md-6 buttoncontainer">
+	      		<button type="button" class="button gameoverbutton" onclick="menuscreen();">Back</button>
+	      	</div>
+	      </div>
+	    </div>    	
+    </div>
+   
+   <div class="submitscreen2 disabledelement" id="submitscreen2">
+    	<div class="col-md-12">
+	      <p class="text60">The picture you entered already exists in the game</p>
+	      <img src="" class="alreadysubmittedimage" id="alreadysubmittedpicture">
+	      <p class="text40 mar375" id="alreadysubmittedtext"></p>
+	      <div class="pad75 buttoncontainer">
+	      	<button type="button" class="button gameoverbutton" onclick="menuscreen();">Back</button>
+	      </div>
+	    </div>
+   </div>
+   
+   <div class="submitscreen3 disabledelement" id="submitscreen3">
+    	<div class="col-md-12">
+	      <p class="text60">The picture you entered doesn't exist yet!</p>
+	      <div class="col-md-6 mar20">
+	      	<div class="submitbox">
+	      		<p class="text40">Picture Name</p>
+	      		<input type="text" id="submitname" class="submitinfofield submitinfotext" autocomplete="off" spellcheck="false" maxlength=26 disabled>
+	      		<p class="mar15 descriptiontext">The subject of the picture that players will have to guess. To change this, click "Back" and then "Submit a Picture" to check if the picture already exists.</p>
+	      	</div>
+	      </div>
+	      <div class="col-md-6 mar20">
+	      	<div class="submitbox" id="submitboxfile">
+	      		<p class="text40">Picture File</p>
+				<input type="file" name="image" id="file-select" class="choosefile"/>
+				<p class="mar70 descriptiontext">Select an image file. Make sure that it is .jpg, .jpeg, or .png.</p>
+	      	</div>
+	      </div>
+	      <div class="col-md-6 mar20">
+	      	<div class="submitbox" id="submitboxhints">
+	      		<p class="text40">Hints</p>
+	      		<input type="text" id="inputhint1" class="submitinfofieldsmall submitinfosmalltext" autocomplete="off" spellcheck="false" maxlength=80>
+	      		<input type="text" id="inputhint2" class="submitinfofieldsmall submitinfosmalltext mar5" autocomplete="off" spellcheck="false" maxlength=80>
+	      		<p class="mar15 descriptiontext">Two hints to help players guess the subject of the picture. Make these interesting, but not too obvious!</p>
+	      	</div>
+	      </div>
+	      <div class="col-md-6 mar20">
+	      	<div class="submitbox" id="submitboxcategory">
+	      		<p class="text40">Category</p>
+	      		<div class="btn-group">
+	                <button type="button" class="btn btn-default dropdown-toggle mar30" data-toggle="dropdown" id="submitcategorylist">Choose a category<span class="caret"></span></button>
+	                <ul class="dropdown-menu scrollable-menu" role="menu">
+	                    <li><a href="#" onclick="updatesubmitcategory('People');">People</a></li>
+	                    <li><a href="#" onclick="updatesubmitcategory('Food');">Food</a></li>
+	                    <li><a href="#" onclick="updatesubmitcategory('Characters');">Characters</a></li>
+	                </ul>
+            	</div>
+            	<p class="mar37 descriptiontext">The category that the picture bests fits into. This will determine where the picture may show up in game.</p>
+	      	</div>
+	      </div>
+	      <div class="buttoncontainer">
+	      	<div class="col-md-6 buttoncontainer">
+	      		<button type="button" class="mar20 button gameoverbutton" onclick="submitpicture();">Submit</button>
+	      	</div>
+	      	<div class="col-md-6 buttoncontainer">
+	      		<button type="button" class="mar20 button gameoverbutton" onclick="menuscreen();">Back</button>
+	      	</div>
+	      </div>
+	    </div>
+   </div>
+   
+   <div class="submitscreen4 disabledelement" id="submitscreen4">
+    	<div class="col-md-12">
+	      <p class="text60">Your picture was added to the game!</p>
+	      <img src="" class="alreadysubmittedimage" id="confirmsubmittedpicture">
+	      <p class="text40 mar375" id="confirmsubmittedtext"></p>
+	      <div class="pad75 buttoncontainer">
+	      	<button type="button" class="button gameoverbutton" onclick="menuscreen();">Back</button>
+	      </div>
+	    </div>
+   </div>
+    
+    <div class="gameoverscreen disabledelement" id="gameoverscreen">
+    	<div class="col-md-2">
+    		<img src="Pictures/arrow.png" class="endarrow" id="arrowpic">
+    		<div class="arrowtextbox" id="arrowtext">Log into Facebook to be ranked on the leaderboard!</div>
+    	</div>
+    	<div class="col-md-8">
+    	<div class="text40" id="leaderboardheader"></div>
+	      <div class="leaderboard" id="leaderboard">
+	      	<div class="leaderboardrowsmall">
+	      		<div class="col-md-2 leaderboardsmalltext">Rank</div>
+	      		<div class="col-md-1 leaderboardsmalltext"></div>
+	      		<div class="col-md-7 leaderboardsmalltext">Name</div>
+	      		<div class="col-md-2 leaderboardsmalltext">Score</div>
+	      	</div>
+	      	<div class="leaderboardrow" id="leaderboardrow1">
+	      		<div class="col-md-2 leaderboardname leaderboardtext" id="leaderboardrank1">1</div>
+	      		<div class="col-md-1 leaderboardpicture">
+	      			<img src="" class="fbimage3" id="leaderboardpicture1">
+	      		</div>
+	      		<div class="col-md-7 leaderboardname leaderboardtext" id="leaderboardname1">Ryan Marino</div>
+	      		<div class="col-md-2 leaderboardscore leaderboardtext" id="leaderboardscore1">10000</div>
+	      	</div>
+	      	<div class="leaderboardrow" id="leaderboardrow2">
+	      		<div class="col-md-2 leaderboardname leaderboardtext" id="leaderboardrank2">2</div>
+	      		<div class="col-md-1 leaderboardpicture">
+	      			<img src="" class="fbimage3" id="leaderboardpicture2">
+	      		</div>
+	      		<div class="col-md-7 leaderboardname leaderboardtext" id="leaderboardname2"></div>
+	      		<div class="col-md-2 leaderboardscore leaderboardtext" id="leaderboardscore2"></div>
+	      	</div>
+	      	<div class="leaderboardrow" id="leaderboardrow3">
+	      		<div class="col-md-2 leaderboardname leaderboardtext" id="leaderboardrank3">3</div>
+	      		<div class="col-md-1 leaderboardpicture">
+	      			<img src="" class="fbimage3" id="leaderboardpicture3">
+	      		</div>
+	      		<div class="col-md-7 leaderboardname leaderboardtext" id="leaderboardname3"></div>
+	      		<div class="col-md-2 leaderboardscore leaderboardtext" id="leaderboardscore3"></div>
+	      	</div>
+	      	<div class="leaderboardrow" id="leaderboardrow4">
+	      		<div class="col-md-2 leaderboardname leaderboardtext" id="leaderboardrank4">4</div>
+	      		<div class="col-md-1 leaderboardpicture">
+	      			<img src="" class="fbimage3" id="leaderboardpicture4">
+	      		</div>
+	      		<div class="col-md-7 leaderboardname leaderboardtext" id="leaderboardname4"></div>
+	      		<div class="col-md-2 leaderboardscore leaderboardtext" id="leaderboardscore4"></div>
+	      	</div>
+	      	<div class="leaderboardrow" id="leaderboardrow5">
+	      		<div class="col-md-2 leaderboardname leaderboardtext" id="leaderboardrank5">5</div>
+	      		<div class="col-md-1 leaderboardpicture">
+	      			<img src="" class="fbimage3" id="leaderboardpicture5">
+	      		</div>
+	      		<div class="col-md-7 leaderboardname leaderboardtext" id="leaderboardname5"></div>
+	      		<div class="col-md-2 leaderboardscore leaderboardtext" id="leaderboardscore5"></div>
+	      	</div>
+	      	<div class="leaderboardrowsmall">
+	      		<div class="col-md-12 leaderboardsmalltext">Your score</div>
+	      	</div>
+	      	<div class="leaderboardrow lastrow" id="leaderboardrow6">
+	      		<div class="col-md-2 leaderboardname leaderboardtext" id="leaderboardrank6">#</div>
+	      		<div class="col-md-1 leaderboardpicture">
+	      			<img src="" class="fbimage3" id="leaderboardpicture6">
+	      		</div>
+	      		<div class="col-md-7 leaderboardname leaderboardtext" id="leaderboardname6"></div>
+	      		<div class="col-md-2 leaderboardscore leaderboardtext" id="leaderboardscore6"></div>
+	      	</div>
+	      </div>
+	      <div class="pad40 buttoncontainer2">
+	      	<div class="col-md-6 buttoncontainer">
+	      		<button type="button" class="button gameoverbutton" id="gameoverbutton1" onclick="startgame();">Play Again</button>
+	      	</div>
+	      	<div class="col-md-6 buttoncontainer">
+	      		<button type="button" class="button gameoverbutton" id="gameoverbutton2" onclick="menuscreen();">Main Menu</button>
+	      	</div>
+	      </div>
+	    </div>
+    	<div class="col-md-2"></div>
+    </div>
+    
+ 	<div class="gamescreen disabledelement" id="gamescreen">
+
+	    <div class="topside col-md-12" id = "topside">
+	      <p class="toptext" id="toptext"></p>
+	    </div>
+	
+	    <div class="row center">
+	      <div class="leftside col-md-4">
+	        <div class="sidecontainer" id="sidecontainerl">
+	          <div class="sideheader sideheadertext">Hints</div>
+	          <div class="hint1 hinttext" id="hint1"></div>
+	          <div class="hint2 hinttext" id="hint2"></div>
+	          <div class="fbsubmittedbox" id="fbsubmittedbox">
+	          	<p class="fbsubmittedtext">Submitted by:</p>
+	          	<img src="" class="fbimage2" id="fbpicture2">
+	          	<p class="fbsubmittedtext2" id="fbsubmitname"></p>
+	          </div>
+	        </div>
+	      </div>
+	      <div class="centerside col-md-4" id="centerside">
+	        <img src="" class="image" id="picture">
+	        <div class="easycover" id="easycover"></div>
+	        <div class="hardcover1" id="hardcover1"></div>
+	        <div class="hardcover2" id="hardcover2"></div>
+	      </div>
+	      <div class="rightside col-md-4">
+	        <div class="sidecontainer" id="sidecontainerr">
+	          <div class="sideheader sideheadertext timer">Time</div>
+	          <div class="timer timetext" id="timer">15</div>
+	          <div class="continuetext" id="continuetext">Press Enter to continue . . .</div>
+	        </div>
+	      </div>
+	    </div>
+	
+	    <div class="bottomside col-md-12">
+	       <input type="text" id="textfield" oninput="checktext()" autofocus onblur="gamefocus();" class="textfield bottomtext" autocomplete="off" spellcheck="false" maxlength=26>
+	    </div>
+    
+    </div>
+
+    <nav class="navbar navbar-inverse navbar-fixed-bottom">
+      <div class="col-md-2 bottomheadertext botnavbar" id="round">Round: 1</div>
+      <div class="blank col-md-3"></div>
+      <div class="col-md-2 bottomheadertext">
+        <button type="button" id="giveup" onclick="lose();" class="button giveupbutton">Give up</button>
+        <div class="fb-login-button" data-size="large" data-auto-logout-link="true" id="fblogin" data-scope="public_profile" onlogin="checkLoginState();"></div>
+      </div>
+      <div class="blank col-md-3"></div>
+      <div class="col-md-2 bottomheadertext botnavbar" id="score">Score: 0</div>
+    </nav>
+
+    <script>
+      var cw = $(".image").width();
+      $(".image").css({
+        "height": cw + 'px'
+      });
+    </script>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+    var countDown = null;
+    
+    function starttimer() {
+    	countDown = setInterval(countdown, 1000);
+    };
+    
+    function stoptimer() {
+    	clearInterval(countDown);
+    	countDown = null;
+    };
+    
+    function checktext() {
+    	var input = document.getElementById("textfield").value;
+        var inputcap = input.toUpperCase();
+        var picname = y[1];
+        var picnamecap = picname.toUpperCase();
+        
+        if (inputcap == picnamecap && gamestate == 1) {
+        	gamestate = 2;
+        	document.body.className = "correctback";
+        	document.getElementById("giveup").style.visibility = 'hidden';
+        	setused();
+        	document.getElementById("topside").style.opacity = 1.0;
+        	if (submittedround == 1) {
+        		$('#fbsubmittedbox').addClass("fadeinfrombottom3");
+          		$('#fbsubmittedbox').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+          			    function(e) {
+          				document.getElementById("fbsubmittedbox").style.opacity = 1.0;
+        		   		$('#fbsubmittedbox').removeClass("fadeinfrombottom3");
+          				addScore();
+          				document.getElementById("continuetext").style.opacity = 1.0;
+          				allowcontinue = 1;
+          			    });
+            }
+        	if (difficulty == "easy") {
+        		if (easyvariation == 2) {
+        			$('#easycover').addClass("easyframefallleft");
+        			$('#easycover').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+        			    function(e) {
+        				document.getElementById("easycover").style.opacity = 0.0;
+        			    $('#easycover').removeClass("easyframefallleft");
+        			    if (submittedround != 1) {
+        			    	addScore();
+        			    	document.getElementById("continuetext").style.opacity = 1.0;
+              				allowcontinue = 1;
+        			    }
+        			    });
+        		} else if (easyvariation == 1) {
+        			$('#easycover').addClass("easyframefallright");
+        			$('#easycover').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+        			    function(e) {
+        				document.getElementById("easycover").style.opacity = 0.0;
+        			    $('#easycover').removeClass("easyframefallright");
+        			    if (submittedround != 1) {
+        			    	addScore();
+        			    	document.getElementById("continuetext").style.opacity = 1.0;
+              				allowcontinue = 1;
+        			    }
+        			    });
+        		}
+        	} else if (difficulty == "hard") {
+        		$('#hardcover1').addClass("easyframefallright");
+    			$('#hardcover1').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    				document.getElementById("hardcover1").style.opacity = 0.0;
+    			    $('#hardcover1').removeClass("easyframefallright");
+    			    if (submittedround != 1) {
+    			    	addScore();
+    			    	document.getElementById("continuetext").style.opacity = 1.0;
+          				allowcontinue = 1;
+    			    }
+    			    });
+    			
+    			$('#hardcover2').addClass("easyframefallleft");
+    			$('#hardcover2').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    				document.getElementById("hardcover2").style.opacity = 0.0;
+    			    $('#hardcover2').removeClass("easyframefallleft");
+    			    });
+        	}
+          	document.getElementById("textfield").disabled = true;
+          	stoptimer();
+        };	
+    };
+    
+    $('body').bind('keypress', function(e) {
+    	if(e.keyCode==13){
+    		if (allowcontinue == 1 && gamestate == 2) {
+    			resetanimations(0);
+    		}
+    	}
+    });
+
+    $(document).ready(function() {
+      $('#picture').load(function() {
+        picheight = $(this).height() + 1;
+        picwidth = $(this).width();
+        var imgrect = picture.getBoundingClientRect();
+        var offsetrect = centerside.getBoundingClientRect ();
+        totaloffset = imgrect.left - offsetrect.left;
+        coversize();
+        
+        var wait = setTimeout(function(){
+        	if (difficulty == "easy") {
+        		document.getElementById("easycover").style.opacity = 1.0;
+        	} else if (difficulty == "hard") {
+        		document.getElementById("hardcover1").style.opacity = 1.0;
+        		document.getElementById("hardcover2").style.opacity = 1.0;
+        	}
+            document.getElementById("picture").style.opacity = 1.0;
+            document.getElementById("timer").style.opacity = 1.0;
+            document.getElementById("giveup").style.visibility = 'visible';
+            starttimer();
+            clearTimeout(wait);
+        }, 1500);
+      });
+    });
+    
+    $(window).resize(function() {
+    	picheight = $(picture).height() + 1;
+        picwidth = $(picture).width();
+        var imgrect = picture.getBoundingClientRect();
+        var offsetrect = centerside.getBoundingClientRect();
+        totaloffset = imgrect.left - offsetrect.left;
+        coversize();
+    	});
+    
+    function newRound() {
+    	resetTime();
+    	getnew();
+    	gamestate = 1;
+    	allowcontinue = 0;
+    	document.getElementById("textfield").value = "";
+    	document.body.className = "runningback";
+    	round++;
+    	document.getElementById("round").innerHTML = "Round: " + round;
+    	document.getElementById("topside").style.opacity = 0.0;
+      	document.getElementById("picture").style.opacity = 0.0;
+      	document.getElementById("hint1").style.opacity = 0.0;
+      	document.getElementById("hint2").style.opacity = 0.0;
+      	document.getElementById("timer").style.opacity = 0.0;
+      	document.getElementById("continuetext").style.opacity = 0.0;
+      	if (difficulty == "hard") {
+			hardrandom();
+		} else if (difficulty == "easy") {
+			easyrandom();
+		}
+    };
+    
+    function addScore() {
+		var pointstoadd = timeleft;
+		document.getElementById("score").style.color = "#e6e600";
+    	document.getElementById("timer").style.color = "#4d4d4d";
+ 		var myVar = setInterval(function() {
+ 			if (difficulty == "easy") {
+ 				score++;
+ 			} else if (difficulty == "hard") {
+ 				score = score + 2;
+ 			}
+	    		document.getElementById("score").innerHTML = "Score: " + score;
+	    		pointstoadd--;
+	    		document.getElementById("timer").innerHTML = pointstoadd;
+	    		if (pointstoadd == 0) {
+	    			clearInterval(myVar);
+	    			document.getElementById("score").style.color = "white";
+	    			document.getElementById("timer").style.color = "black";
+	    		}
+ 		}, 30);
+    };
+    
+    function countdown() {
+    	if (gamestate == 1) {
+    		var time = parseInt(document.getElementById("timer").innerHTML);
+        	var newtime = time - 1;
+        	document.getElementById("timer").innerHTML = newtime.toString();
+        	timeleft = newtime;
+        	if (timeleft == 0) {
+        		lose();
+        	}
+          if (timeleft == 10) {
+        	$('#hint1').addClass("fadeinfrombottom1");
+      		$('#hint1').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+      			    function(e) {
+      				document.getElementById("hint1").style.opacity = 1.0;
+      			    $('#hint1').removeClass("fadeinfrombottom1");
+      			    });
+          }
+          if (timeleft == 5) {
+        	$('#hint2').addClass("fadeinfrombottom2");
+        	$('#hint2').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+        			function(e) {
+        			document.getElementById("hint2").style.opacity = 1.0;
+        			$('#hint2').removeClass("fadeinfrombottom2");
+        			});
+          }
+    	}
+    };
+   
+    function resetTime() {
+    	document.getElementById("timer").innerHTML = 15;
+    };
+
+    function lose() {
+      leaderboard(category);
+      document.getElementById("giveup").style.visibility = 'hidden';
+      gamestate = 3;
+      $('body').removeClass("runningback");
+	  $('body').addClass("incorrectback");
+      document.getElementById("topside").style.opacity = 1.0;
+      if (difficulty == "easy") {
+    	  if (easyvariation == 2) {
+  			$('#easycover').addClass("easyframefallleft");
+  			$('#easycover').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  			    function(e) {
+  				document.getElementById("easycover").style.opacity = 0.0;
+  			    $('#easycover').removeClass("easyframefallleft");
+  			    if (submittedround != 1) {
+  			    	endautoadvance();
+  			    }
+  			    });
+  		} else if (easyvariation == 1) {
+  			$('#easycover').addClass("easyframefallright");
+  			$('#easycover').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  			    function(e) {
+  				document.getElementById("easycover").style.opacity = 0.0;
+  			    $('#easycover').removeClass("easyframefallright");
+  			    if (submittedround != 1) {
+  			    	endautoadvance();
+  			    }
+  			    });
+  		}
+  	} else if (difficulty == "hard") {
+  		$('#hardcover1').addClass("easyframefallright");
+		$('#hardcover1').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+		    function(e) {
+			document.getElementById("hardcover1").style.opacity = 0.0;
+		    $('#hardcover1').removeClass("easyframefallright");
+		    if (submittedround != 1) {
+		    	endautoadvance();
+		    }
+		    });
+		
+		$('#hardcover2').addClass("easyframefallleft");
+		$('#hardcover2').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+		    function(e) {
+			document.getElementById("hardcover2").style.opacity = 0.0;
+		    $('#hardcover2').removeClass("easyframefallleft");
+		    if (submittedround != 1) {
+		    	endautoadvance();
+		    }
+		    });
+  	}
+      document.getElementById("textfield").disabled = true;
+      if (submittedround == 1) {
+    	  $('#fbsubmittedbox').addClass("fadeinfrombottom3");
+    		$('#fbsubmittedbox').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    				document.getElementById("fbsubmittedbox").style.opacity = 1.0;
+    			    $('#fbsubmittedbox').removeClass("fadeinfrombottom3");
+    			    endautoadvance();
+    			    });
+        }
+      stoptimer();
+    };
+    
+    function gameoverscreen() {
+    	gamestate = 4;
+    	document.getElementById("leaderboardscore6").innerHTML = score;
+    	$('#gameoverscreen').removeClass("disabledelement");
+    	$('#gamescreen').addClass("disabledelement");
+    	$('body').removeClass("runningback");
+		$('body').addClass("menuback");
+    	document.getElementById("gamescreen").style.zIndex = "-1";
+    	document.getElementById("gameoverscreen").style.zIndex = "1";
+    	document.getElementById("leaderboardheader").style.opacity = 0.0;
+	
+    	var wait = setTimeout(function(){
+    		$('#leaderboard').addClass("leaderboardfade");
+      		$('#leaderboard').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+      			    function(e) {
+      				document.getElementById("leaderboard").style.opacity = 1.0;
+    		   		$('#leaderboard').removeClass("leaderboardfade");
+      		});
+      		clearInterval(wait);
+    	}, 1500);
+    	
+    	var wait4 = setTimeout(function(){
+    		$('#leaderboardheader').addClass("leaderboardheaderfade");
+      		$('#leaderboardheader').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+      			    function(e) {
+      				document.getElementById("leaderboardheader").style.opacity = 1.0;
+    		   		$('#leaderboardheader').removeClass("leaderboardheaderfade");
+      		});
+      		clearInterval(wait4);
+    	}, 1000);
+    	
+    	var wait2 = setTimeout(function(){
+    		$('#gameoverbutton1').addClass("gameoverbuttonani");
+    		document.getElementById("gameoverbutton1").style.opacity = 1.0;
+      		$('#gameoverbutton1').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+      			    function(e) {
+      				$('#gameoverbutton1').removeClass("gameoverbuttonani");
+      				
+    		    });
+      		clearInterval(wait2);
+    	}, 2000);
+  		
+    	var wait3 = setTimeout(function(){
+    		$('#gameoverbutton2').addClass("gameoverbuttonani");
+    		document.getElementById("gameoverbutton2").style.opacity = 1.0;
+      		$('#gameoverbutton2').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+      			    function(e) {
+      				$('#gameoverbutton2').removeClass("gameoverbuttonani");
+      				if (fbloggedin == 1) {
+      					nopass = 0;
+      				}
+    		    });
+      		clearInterval(wait3);
+    	}, 2500);
+    	
+    	if (fbloggedin == 0) {
+    		arrowfade();
+    	}
+    	
+    };
+    
+    function startgame() {
+    	if (gamestate == 5 && nopass == 0) {
+    		document.getElementById("fblogin").style.opacity = 0.0;
+       		document.getElementById("fblogin").style.zIndex = "-1";
+       		
+    		$('#menuscreen').addClass("disabledelement");
+    		$('#menuscreen').addClass("screenfadeoutelement");
+    		$('body').addClass("backgroundbluetogrey");
+    		$('#menuscreen').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    				if (gamestate == 5 && nopass == 0) {
+    					$('#menuscreen').removeClass("screenfadeoutelement");
+        			    document.getElementById("menuscreen").style.zIndex = "-1";
+        	       		document.getElementById("categorytext").innerHTML = "Category: " + category;
+        	       		
+        	       		$('body').removeClass("menuback");
+        	       		$('body').removeClass("incorrectback");
+        				$('body').addClass("runningback");
+        			    $('body').removeClass("backgroundbluetogrey");
+        			    
+        		       	document.getElementById("gamescreen").style.zIndex = "1";
+        		       	document.getElementById("round").style.opacity = 1.0;
+        		   		document.getElementById("score").style.opacity = 1.0;
+        		   		document.getElementById("fbsubmittedbox").style.opacity = 0.0;
+        		   		document.getElementById("continuetext").style.opacity = 0.0;
+        		   		
+        		   		if (document.getElementById("easydif").checked) {
+        	           		difficulty = "easy";
+        	           		document.getElementById("difficultytext").innerHTML = "Difficulty: Easy";
+        	           	} else if (document.getElementById("harddif").checked) {
+        	           		difficulty = "hard";
+        	           		document.getElementById("difficultytext").innerHTML = "Difficulty: Hard";
+        	           	}
+        		   		
+        		       	init();	
+    				}
+    			    });
+    		
+    	} else if (gamestate == 4 && nopass == 0) {
+    		$('#gameoverscreen').addClass("disabledelement");
+    		$('#gameoverscreen').addClass("screenfadeoutelement");
+    		$('body').addClass("backgroundbluetogrey");
+    		$('#gameoverscreen').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    				if (gamestate == 4 && nopass == 0) {
+    					$('#gameoverscreen').removeClass("screenfadeoutelement");
+        			    document.getElementById("gameoverscreen").style.zIndex = "-1";
+        	       		
+        			    $('body').removeClass("incorrectback");
+        	       		$('body').removeClass("menuback");
+        				$('body').addClass("runningback");
+        			    $('body').removeClass("backgroundbluetogrey");
+        			    
+        		       	document.getElementById("giveup").style.visibility = 'visible';
+        		       	document.getElementById("gamescreen").style.zIndex = "1";
+        		       	document.getElementById("round").style.opacity = 1.0;
+        		   		document.getElementById("score").style.opacity = 1.0;
+        		   		document.getElementById("fbsubmittedbox").style.opacity = 0.0;
+        		   		document.getElementById("continuetext").style.opacity = 0.0;
+        		   		
+        		   		document.getElementById("leaderboard").style.opacity = 0.0;
+        		   		document.getElementById("gameoverbutton1").style.opacity = 0.0;
+        		   		document.getElementById("gameoverbutton2").style.opacity = 0.0;
+        		   		
+        		   		if (document.getElementById("easydif").checked) {
+        	           		difficulty = "easy";
+        	           		document.getElementById("difficultytext").innerHTML = "Difficulty: Easy";
+        	           	} else if (document.getElementById("harddif").checked) {
+        	           		difficulty = "hard";
+        	           		document.getElementById("difficultytext").innerHTML = "Difficulty: Hard";
+        	           	}
+        		   		
+        		       	init();	
+    				}
+    			    });
+    	}	
+    };
+    
+    function menuscreen() {
+    	if (gamestate == 6) {
+    		$('#submitscreen1').addClass("disabledelement");
+    		$('#submitscreen1').addClass("screenfadeoutelement2");
+    		$('#submitscreen1').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    			    $('#submitscreen1').removeClass("screenfadeoutelement2");
+    			    $('#submitscreen1').addClass("disabledelement");
+    			    document.getElementById("submitscreen1").style.zIndex = "-1";
+    	        	document.getElementById("menuscreen").style.zIndex = "1";
+    	        	gamestate = 5;
+    	        	$('#menuscreen').addClass("screenfadeinelement");
+    	        	$('#menuscreen').removeClass("disabledelement");
+    	        	$('#menuscreen').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    	    			    function(e) {
+    	        			$('#menuscreen').removeClass("screenfadeinelement");
+    	        			document.getElementById("fblogin").style.opacity = 1.0;
+    	        			document.getElementById("fblogin").style.zIndex = "1";
+    	        	});
+    			    });
+    	} else if (gamestate == 4 && nopass == 0) {
+    		$('#gameoverscreen').addClass("disabledelement");
+    		$('#gameoverscreen').addClass("screenfadeoutelement2");
+    		$('#gameoverscreen').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    				if (gamestate == 4 && nopass == 0) {
+    					$('#gameoverscreen').removeClass("screenfadeoutelement2");
+        			    $('#gameoverscreen').addClass("disabledelement");
+        			    document.getElementById("gameoverscreen").style.zIndex = "-1";
+        	        	document.getElementById("menuscreen").style.zIndex = "1";
+        	        	document.getElementById("round").style.opacity = 0.0;
+        	    		document.getElementById("score").style.opacity = 0.0;
+        	    		document.getElementById("categorytext").innerHTML = "";
+        	    		document.getElementById("difficultytext").innerHTML = "";
+        	    		document.getElementById("leaderboard").style.opacity = 0.0;
+        		   		document.getElementById("gameoverbutton1").style.opacity = 0.0;
+        		   		document.getElementById("gameoverbutton2").style.opacity = 0.0;
+        		   		document.getElementById("easydif").checked = true;
+        		   		choosecategory('All');
+        	        	gamestate = 5;
+        	        	$('#menuscreen').addClass("screenfadeinelement");
+        	        	$('#menuscreen').removeClass("disabledelement");
+        	        	$('#menuscreen').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+        	    			    function(e) {
+        	        			$('#menuscreen').removeClass("screenfadeinelement");
+        	        			document.getElementById("fblogin").style.opacity = 1.0;
+        	        			document.getElementById("fblogin").style.zIndex = "1";
+        	        	});
+    				}
+    			    });
+    	} else if (gamestate == 7){
+    		$('#submitscreen2').addClass("disabledelement");
+    		$('#submitscreen2').addClass("screenfadeoutelement2");
+    		$('#submitscreen2').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    			    $('#submitscreen2').removeClass("screenfadeoutelement2");
+    			    $('#submitscreen2').addClass("disabledelement");
+    			    document.getElementById("submitscreen2").style.zIndex = "-1";
+    	        	document.getElementById("menuscreen").style.zIndex = "1";
+    	        	gamestate = 5;
+    	        	$('#menuscreen').addClass("screenfadeinelement");
+    	        	$('#menuscreen').removeClass("disabledelement");
+    	        	$('#menuscreen').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    	    			    function(e) {
+    	        			$('#menuscreen').removeClass("screenfadeinelement");
+    	        			document.getElementById("fblogin").style.opacity = 1.0;
+    	        			document.getElementById("fblogin").style.zIndex = "1";
+    	        	});
+    			    });
+    	} else if (gamestate == 8) {
+    		$('#submitscreen3').addClass("disabledelement");
+    		$('#submitscreen3').addClass("screenfadeoutelement2");
+    		$('#submitscreen3').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    			    $('#submitscreen3').removeClass("screenfadeoutelement2");
+    			    $('#submitscreen3').addClass("disabledelement");
+    			    document.getElementById("submitscreen3").style.zIndex = "-1";
+    	        	document.getElementById("menuscreen").style.zIndex = "1";
+    	        	gamestate = 5;
+    	        	$('#menuscreen').addClass("screenfadeinelement");
+    	        	$('#menuscreen').removeClass("disabledelement");
+    	        	$('#menuscreen').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    	    			    function(e) {
+    	        			$('#menuscreen').removeClass("screenfadeinelement");
+    	        			document.getElementById("fblogin").style.opacity = 1.0;
+    	        			document.getElementById("fblogin").style.zIndex = "1";
+    	        	});
+    			    });
+    	} else if (gamestate == 9) {
+    		$('#submitscreen4').addClass("disabledelement");
+    		$('#submitscreen4').addClass("screenfadeoutelement2");
+    		$('#submitscreen4').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    			    $('#submitscreen4').removeClass("screenfadeoutelement2");
+    			    $('#submitscreen4').addClass("disabledelement");
+    			    document.getElementById("submitscreen4").style.zIndex = "-1";
+    	        	document.getElementById("menuscreen").style.zIndex = "1";
+    	        	gamestate = 5;
+    	        	$('#menuscreen').addClass("screenfadeinelement");
+    	        	$('#menuscreen').removeClass("disabledelement");
+    	        	$('#menuscreen').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    	    			    function(e) {
+    	        			$('#menuscreen').removeClass("screenfadeinelement");
+    	        			document.getElementById("fblogin").style.opacity = 1.0;
+    	        			document.getElementById("fblogin").style.zIndex = "1";
+    	        	});
+    			    });
+    	}
+    };
+    
+    function submitscreen1() {
+    	if (fbloggedin == 1) {
+    		document.getElementById("fblogin").style.opacity = 0.0;
+    		document.getElementById("fblogin").style.zIndex = "-1";
+    		$('#menuscreen').addClass("disabledelement");
+    		$('#menuscreen').addClass("screenfadeoutelement2");
+    		$('#menuscreen').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    			    function(e) {
+    			    $('#menuscreen').removeClass("screenfadeoutelement2");
+    			    $('#menuscreen').addClass("disabledelement");
+    			    document.getElementById("menuscreen").style.zIndex = "-1";
+    	        	document.getElementById("submitscreen1").style.zIndex = "1";
+    	        	document.getElementById("submitcheckfield").value = "";
+    	        	gamestate = 6;
+    	        	$('#submitscreen1').addClass("screenfadeinelement");
+    	        	$('#submitscreen1').removeClass("disabledelement");
+    	        	$('#submitscreen1').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+    	    			    function(e) {
+    	        			$('#submitscreen1').removeClass("screenfadeinelement");
+    	        			document.getElementById("submitcheckfield").focus();
+    	        	});
+    			    });
+    	} else {
+    		alert("Please login to Facebook to submit pictures.")
+    	};
+    };
+    
+    function submitscreen2() {
+		$('#submitscreen1').addClass("disabledelement");
+		$('#submitscreen1').addClass("screenfadeoutelement2");
+		$('#submitscreen1').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+			    function(e) {
+			    $('#submitscreen1').removeClass("screenfadeoutelement2");
+			    $('#submitscreen1').addClass("disabledelement");
+			    document.getElementById("submitscreen1").style.zIndex = "-1";
+	        	document.getElementById("submitscreen2").style.zIndex = "1";
+	        	gamestate = 7;
+	        	$('#submitscreen2').addClass("screenfadeinelement");
+	        	$('#submitscreen2').removeClass("disabledelement");
+	        	$('#submitscreen2').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+	    			    function(e) {
+	        			$('#submitscreen2').removeClass("screenfadeinelement");
+	        	});
+			    });
+    };
+    
+    function submitscreen3() {
+    	$('#submitscreen1').addClass("disabledelement");
+		$('#submitscreen1').addClass("screenfadeoutelement2");
+		$('#submitscreen1').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+			    function(e) {
+			    $('#submitscreen1').removeClass("screenfadeoutelement2");
+			    $('#submitscreen1').addClass("disabledelement");
+			    document.getElementById("submitscreen1").style.zIndex = "-1";
+	        	document.getElementById("submitscreen3").style.zIndex = "1";
+	        	gamestate = 8;
+	        	submitcategoryunchanged = 1;
+	           	document.getElementById("submitname").value = document.getElementById("submitcheckfield").value;
+	           	document.getElementById("inputhint1").value = "";
+	           	document.getElementById("inputhint2").value = "";
+	           	document.getElementById("submitcategorylist").innerHTML = "Choose a category";
+	           	document.getElementById("file-select").value = "";
+	        	$('#submitscreen3').addClass("screenfadeinelement");
+	        	$('#submitscreen3').removeClass("disabledelement");
+	        	$('#submitscreen3').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+	    			    function(e) {
+	        			$('#submitscreen3').removeClass("screenfadeinelement");
+	        	});
+			    });
+    };
+    
+    function submitscreen4() {
+    	$('#submitscreen3').addClass("disabledelement");
+		$('#submitscreen3').addClass("screenfadeoutelement2");
+		$('#submitscreen3').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+			    function(e) {
+			    $('#submitscreen3').removeClass("screenfadeoutelement2");
+			    $('#submitscreen3').addClass("disabledelement");
+			    document.getElementById("submitscreen3").style.zIndex = "-1";
+	        	document.getElementById("submitscreen4").style.zIndex = "1";
+	        	gamestate = 9;
+	        	$('#submitscreen4').addClass("screenfadeinelement");
+	        	$('#submitscreen4').removeClass("disabledelement");
+	        	$('#submitscreen4').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+	    			    function(e) {
+	        			$('#submitscreen4').removeClass("screenfadeinelement");
+	        	});
+			    });
+    };
+    
+    function easyrandom() {
+    	easyvariation = Math.round(Math.floor(Math.random() * 2) + 1);
+    };
+    
+    function hardrandom() {
+    	hardvariation = Math.round(Math.floor(Math.random() * 3) + 1);
+    };
+    
+    function choosecategory(input) {
+    	category = input;
+    	document.getElementById("categoryind").innerHTML = input;
+    };
+    
+    function gamefocus() {
+    	if (gamestate == 1) {
+    		document.getElementById("textfield").focus();
+    	}
+    };
+    
+    function updatesubmitcategory(a) {
+    	document.getElementById("submitcategorylist").innerHTML = a;
+    	submitcategoryunchanged = 0;
+    };
+    
+    function submitpicture() {
+    	var uploadOK = 1;
+    	
+    	if ($('#inputhint1').val() == '' || $('#inputhint2').val() == '') {
+    		document.getElementById("submitboxhints").style.borderColor = "#ff1a1a";
+    		uploadOK = 0;
+    	} else {
+    		document.getElementById("submitboxhints").style.borderColor = "black";
+    	}
+    	
+    	if (submitcategoryunchanged == 1) {
+    		document.getElementById("submitboxcategory").style.borderColor = "#ff1a1a";
+    		uploadOK = 0;
+    	} else {
+    		document.getElementById("submitboxcategory").style.borderColor = "black";
+    	}
+    	
+    	if ($("#file-select").val() == '') {
+    		document.getElementById("submitboxfile").style.borderColor = "#ff1a1a";
+    		uploadOK = 0;
+    	} else {
+    		document.getElementById("submitboxfile").style.borderColor = "black";
+    	}
+    	
+    	if (uploadOK == 1) {
+    		var fileSelect = document.getElementById('file-select');
+    		var alpha = fileSelect.files[0];
+    		
+    		var formdata = new FormData();
+    		
+    		formdata.append('file', alpha);
+    		
+    		var uploadpicname = document.getElementById("submitname").value;
+    		
+    		var q = $("#file-select").val();
+   	    	r = q.split("\\");
+   	    	var uploadpiclocation = r[2];
+    		
+    		var uploadhint1 = document.getElementById("inputhint1").value;
+    		var uploadhint2 = document.getElementById("inputhint2").value;
+    		var uploadcategory = document.getElementById("submitcategorylist").innerHTML;
+    		var uploaduser = loggeduserid;
+    		var uploadusername = loggedusername;
+      	  	
+    	  	$.ajax({
+                url:'uploadimage.php',
+                data:formdata,
+                processData:false,
+                contentType:false,
+                type:'POST',
+                success:function(data){
+                	if (data == 0) {
+                    	document.getElementById("submitboxfile").style.borderColor = "#ff1a1a";
+                    	alert("Please make sure the image file is the right type.");
+                    } else if (data == 1) {
+                    	var xhttp = new XMLHttpRequest();
+                 	  	xhttp.onreadystatechange = function() {
+                       	    if (this.readyState == 4 && this.status == 200) {
+                       	    	document.getElementById("confirmsubmittedpicture").src = "Pictures/" + uploadpiclocation;
+                            	document.getElementById("confirmsubmittedtext").innerHTML = uploadpicname;
+                            	submitscreen4();
+                       	    };
+                       	  };
+                       	xhttp.open("GET", 'userentry.php?picname=' + uploadpicname + '&piclocation=' + uploadpiclocation + '&hint_1=' + uploadhint1 + '&hint_2=' + uploadhint2 + '&category=' + uploadcategory + '&user=' + uploaduser + '&username=' + uploadusername, true);
+                 	  	xhttp.send();
+                    } else if (data == 2) {
+                    	alert("An error occurred.");
+                    } else if (data == 3) {
+                    	document.getElementById("submitboxfile").style.borderColor = "#ff1a1a";
+                    	alert("An image by the same name already exists in the database. Please change the name of the image file.");
+            		}
+                }
+    	});
+    	}
+    };
+    
+    function endautoadvance() {
+    	var wait = setTimeout(function(){
+    		resetanimations(1);
+    		clearTimeout(wait)
+    	}, 2000);
+    };
+    
+    function resetanimations(n) {
+    	$('#fbsubmittedbox').addClass("fadeout");
+  		$('#fbsubmittedbox').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  			    function(e) {
+  				document.getElementById("fbsubmittedbox").style.opacity = 0.0;
+		   		$('#fbsubmittedbox').removeClass("fadeout");
+  			    });
+  		$('#timer').addClass("fadeout");
+  		$('#timer').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  			    function(e) {
+  				document.getElementById("timer").style.opacity = 0.0;
+		   		$('#timer').removeClass("fadeout");
+  			    });
+  		$('#toptext').addClass("fadeout");
+  		$('#toptext').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  			    function(e) {
+  				document.getElementById("toptext").innerHTML = "";
+		   		$('#toptext').removeClass("fadeout");
+  			    });
+  		$('#textfield').addClass("fadeout");
+  		$('#textfield').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  			    function(e) {
+  				document.getElementById("textfield").value = "";
+		   		$('#textfield').removeClass("fadeout");
+  			    });
+  		$('#picture').addClass("fadeout");
+  		$('#picture').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  			    function(e) {
+  				document.getElementById("picture").style.opacity = 0.0;
+		   		$('#picture').removeClass("fadeout");
+  			    });
+  		if (document.getElementById("hint1").style.opacity == 1.0){
+  			$('#hint1').addClass("fadeout");
+      		$('#hint1').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+      			    function(e) {
+      				document.getElementById("hint1").style.opacity = 0.0;
+    		   		$('#hint1').removeClass("fadeout");
+      			    });
+  		}
+  		if (document.getElementById("hint2").style.opacity == 1.0){
+  			$('#hint2').addClass("fadeout");
+      		$('#hint2').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+      			    function(e) {
+      				document.getElementById("hint2").style.opacity = 0.0;
+    		   		$('#hint2').removeClass("fadeout");
+      			    });
+  		}
+  		if (n == 1) {
+  			$('#sidecontainerl').addClass("fadeouttoright1");
+  	       	$('#sidecontainerr').addClass("fadeouttoright2");
+  	       	
+  	       	$('#sidecontainerl').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  				    function(e) {
+  	       			$('#sidecontainerl').removeClass("fadeouttoright1");
+  	       			document.getElementById("sidecontainerl").style.opacity = 0.0;
+  				    });
+  	       	
+  	       	$('#sidecontainerr').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  				    function(e) {
+  	       			$('#sidecontainerr').removeClass("fadeouttoright2");
+  	       			document.getElementById("sidecontainerr").style.opacity = 0.0;
+  	       			gameoverscreen();
+  				    });
+  		} else if (n == 0) {
+  			$('#continuetext').addClass("fadeout");
+  	  		$('#continuetext').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+  	  			    function(e) {
+  	  				document.getElementById("continuetext").style.opacity = 0.0;
+  			   		$('#continuetext').removeClass("fadeout");
+  			   		newRound();
+  	  			    });
+  		}
+    };
+    
+    function rotatebuttons(b) {
+    	var button = b;
+    	$('#' + button).addClass("rotatebutton");
+	  		$('#' + button).one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+	  			    function(e) {
+			   		$('#' + button).removeClass("rotatebutton");
+	  			    });
+    };
+    
+    function arrowfade() {
+    	var wait5 = setTimeout(function(){
+    		$('#arrowtext').addClass("arrowfadein");
+    		document.getElementById("arrowtext").style.opacity = 1.0;
+      		$('#arrowtext').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+      			    function(e) {
+      				$('#arrowtext').removeClass("arrowfadein");
+    		    });
+      		
+      		$('#arrowpic').addClass("arrowfadein");
+    		document.getElementById("arrowpic").style.opacity = 1.0;
+      		$('#arrowpic').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+      			    function(e) {
+      				$('#arrowpic').removeClass("arrowfadein");
+    		   		nopass = 0;
+    		    });
+      		clearInterval(wait5);
+    	}, 3000);
+    };
+    
+    var next1;
+    var next2;
+    var next3;
+    var next4;
+    
+    function startmenuanimations() {
+    	document.getElementById("scrollpic1").style.marginLeft = "140px";
+    	document.getElementById("scrollpic2").style.marginLeft = "380px";
+    	document.getElementById("scrollpic3").style.marginLeft = "620px";
+    	document.getElementById("scrollpic4").style.marginLeft = "860px";
+    	document.getElementById("scrollpic5").style.marginLeft = "1100px";
+    	
+    	document.getElementById("scrollpic1").style.opacity = 0.0;
+    	document.getElementById("scrollpic2").style.opacity = 0.0;
+    	document.getElementById("scrollpic3").style.opacity = 0.0;
+    	document.getElementById("scrollpic4").style.opacity = 0.0;
+    	document.getElementById("scrollpic5").style.opacity = 0.0;
+    	
+    	$('#scrollpic2').addClass("menuscroll2");
+    	$('#scrollpic3').addClass("menuscroll3");
+    	$('#scrollpic4').addClass("menuscroll4");
+    	$('#scrollpic5').addClass("menuscroll5");
+    	
+    	var xhttp = new XMLHttpRequest();
+	  	  	xhttp.onreadystatechange = function() {
+	  	    if (this.readyState == 4 && this.status == 200) {
+	  	    	var x = this.responseText;
+	  	    	document.getElementById("scrollpic5").src = x;
+  	  	    var wait = setTimeout(function(){
+  	  	    	next4 = x;
+  	            clearTimeout(wait);
+  	        }, 1000);
+	  	    	};
+	  	  	};
+	  	  	xhttp.open("GET", "getrandompicture.php", true);
+	  	  	xhttp.send();
+    	
+  		$('#scrollpic5').on('webkitAnimationIteration oanimationiteration msAnimationIteration animationiteration',   
+  			    function(e) {
+  				document.getElementById("scrollpic5").style.opacity = 1.0;
+	  			var xhttp = new XMLHttpRequest();
+	  	  	  	xhttp.onreadystatechange = function() {
+	  	  	    if (this.readyState == 4 && this.status == 200) {
+	  	  	    	var x = this.responseText;
+	  	  	    	document.getElementById("scrollpic5").src = x;
+		  	  	    var wait = setTimeout(function(){
+		  	  	    	next4 = x;
+		  	            clearTimeout(wait);
+		  	        }, 1000);
+	  	  	    	};
+	  	  	  	};
+	  	  	  	xhttp.open("GET", "getrandompicture.php", true);
+	  	  	  	xhttp.send();
+		    });
+  		
+  		$('#scrollpic4').on('webkitAnimationIteration oanimationiteration msAnimationIteration animationiteration',   
+  			    function(e) {
+  				if (next4){
+  					document.getElementById("scrollpic4").style.opacity = 1.0;
+  					document.getElementById("scrollpic4").src = next4;
+  	  				 var wait = setTimeout(function(){
+  			  	  	    	next3 = document.getElementById("scrollpic4").src;
+  			  	            clearTimeout(wait);
+  			  	        }, 1000);
+  				}
+		    });
+  		
+  		$('#scrollpic3').on('webkitAnimationIteration oanimationiteration msAnimationIteration animationiteration',   
+  			    function(e) {
+  				if (next3) {
+  					document.getElementById("scrollpic3").style.opacity = 1.0;
+  					document.getElementById("scrollpic3").src = next3;
+  	  				var wait = setTimeout(function(){
+  		  	  	    	next2 = document.getElementById("scrollpic3").src;
+  		  	            clearTimeout(wait);
+  		  	        }, 1000);
+  				}
+		    });
+		    
+  		$('#scrollpic2').on('webkitAnimationIteration oanimationiteration msAnimationIteration animationiteration',   
+  			    function(e) {
+  				if (next2) {
+  					document.getElementById("scrollpic2").style.opacity = 1.0;
+  					document.getElementById("scrollpic2").src = next2;
+  	  				var wait = setTimeout(function(){
+  		  	  	    	next1 = document.getElementById("scrollpic2").src;
+  		  	            clearTimeout(wait);
+  		  	        }, 1000);
+	  	  			var wait2 = setTimeout(function(){
+	  	  			$('#scrollpic1').addClass("menuscroll1");
+	  	  			document.getElementById("scrollpic1").src = next1;
+			  	            clearTimeout(wait2);
+			  	        }, 3000);
+  				}
+		    });
+  		
+  		$('#scrollpic1').on('webkitAnimationIteration oanimationiteration msAnimationIteration animationiteration',   
+  			    function(e) {
+  				if (next1) {
+  					document.getElementById("scrollpic1").style.opacity = 1.0;
+  					document.getElementById("scrollpic1").src = next1;
+  				}
+		    });
+    };
+    
+
+    </script>
+    	
+  </body>
+</html>
+

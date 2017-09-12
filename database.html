@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Database Editor</title>
+	</head>
+
+	<body>
+		<h1>Database Editor</h1>
+		<hr>
+		<h3>Create/Delete Database</h3>
+		<form action="database.php" method="post" autocomplete="off">
+		  Database Name:<br>
+		  <input type="text" name="db_name">
+		  <br><br>
+		  <input type="submit" value="Submit">
+		</form>
+		<hr>
+		<h3>Create/Delete Game Table</h3>
+		<form action="table.php" method="post" autocomplete="off">
+		  Database Name:<br>
+		  <input type="text" name="db_name">
+		  <br><br>
+		  Table Name:<br>
+		  <input type="text" name="table_name">
+		  <br><br>
+		  <input type="submit" value="Submit">
+		</form>
+		<hr>
+		<h3>Create/Delete Table Entry</h3>
+		<form action="entry.php" method="post" autocomplete="off">
+		  Database Name:<br>
+		  <input type="text" name="db_name" value="WebGame">
+		  <br><br>
+		  Table Name:<br>
+		  <input type="text" name="table_name" value="Pictures">
+		  <br><br>
+		  Entry Name:<br>
+		  <input type="text" name="entry_name" size=26 maxlength=26>
+		  <br><br>
+		  Picture Location:<br>
+		  <input type="text" name="picture_location" size=26 maxlength=26>
+		  <br><br>
+		  Hint 1:<br>
+		  <input type="text" name="hint_1" size=80 maxlength=80>
+		  <br><br>
+		  Hint 2:<br>
+		  <input type="text" name="hint_2" size=80 maxlength=80>
+		  <br><br>
+		  Category:<br>
+		  <input type="text" name="category" size=50 maxlength=50>
+		  <br><br>
+		  <input type="submit" value="Submit">
+		</form>
+		<hr>
+		<h3>Display Game Table Contents</h3>
+		<form action="display.php" method="post" autocomplete="off">
+		  Database Name:<br>
+		  <input type="text" name="db_name" value="WebGame">
+		  <br><br>
+		  Table Name:<br>
+		  <input type="text" name="table_name" value="Pictures">
+		  <br><br>
+		  <input type="submit" value="Submit">
+		</form>
+		<hr>
+		<h3>Modify Data Entry</h3>
+		<form action="modify.php" method="post" autocomplete="off">
+		  Database Name:<br>
+		  <input type="text" name="db_name" value="WebGame">
+		  <br><br>
+		  Table Name:<br>
+		  <input type="text" name="table_name" value="Pictures">
+		  <br><br>
+		  Entry Name:<br>
+		  <input type="text" name="entry_name" size=26 maxlength=26>
+		  <br><br>
+		  Picture Location:<br>
+		  <input type="text" name="picture_location" size=26 maxlength=26>
+		  <br><br>
+		  Hint 1:<br>
+		  <input type="text" name="hint_1" size=80 maxlength=80>
+		  <br><br>
+		  Hint 2:<br>
+		  <input type="text" name="hint_2" size=80 maxlength=80>
+		  <br><br>
+		  Category:<br>
+		  <input type="text" name="category" size=50 maxlength=50>
+		  <br><br>
+		  Used:<br>
+		  <input type="text" name="used" size=1 maxlength=1>
+		  <br><br>
+		  <input type="submit" value="Submit">
+		</form>
+		<hr>
+		<h3>Create/Delete Leaderboard Table</h3>
+		<form action="leaderboardtable.php" method="post" autocomplete="off">
+		  Database Name:<br>
+		  <input type="text" name="db_name">
+		  <br><br>
+		  Table Name:<br>
+		  <input type="text" name="table_name">
+		  <br><br>
+		  <input type="submit" value="Submit">
+		</form>
+		<hr>
+		<h3>Display Leaderboard Table</h3>
+		<form action="displayleaderboard.php" method="post" autocomplete="off">
+		  Database Name:<br>
+		  <input type="text" name="db_name" value="WebGame">
+		  <br><br>
+		  Table Name:<br>
+		  <input type="text" name="table_name" value="Leaderboard">
+		  <br><br>
+		  <input type="submit" value="Submit">
+		</form>
+	</body>
+
+</html>
